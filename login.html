@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - متجر Moaz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>تسجيل الدخول</h2>
+        <form id="loginForm">
+            <label for="username">اسم المستخدم:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">كلمة المرور:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+        <p id="error-message" style="color: red; display: none;">خطأ: يرجى إدخال بيانات صحيحة!</p>
+    </div>
+
+    <script>
+        // فحص إذا كان المستخدم مسجل الدخول بالفعل
+        window.onload = function() {
+            if(localStorage.getItem("loggedInUser")) {
+                window.location.href = "dashboard.html"; // توجيه المستخدم لصفحة أخرى إذا كان مسجل الدخول
+            }
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // التحقق البسيط
+            if (username === "user" && password === "password") { // يمكنك تعديل هذا ليكون مع قاعدة بيانات حقيقية
+                localStorage.setItem("loggedInUser", username);
+                window.location.href = "dashboard.html"; // توجيه المستخدم إلى الصفحة التالية بعد تسجيل الدخول
+            } else {
+                document.getElementById("error-message").style.display = "block"; // عرض رسالة خطأ إذا كانت البيانات غير صحيحة
+            }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرحباً - متجر Moaz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>مرحباً، <span id="usernameDisplay"></span>!</h2>
+        <p>أنت الآن مسجل الدخول.</p>
+        <button id="logoutBtn">تسجيل دخول</button>
+    </div>
+
+    <script>
+        // عرض اسم المستخدم المسجل دخوله
+        document.getElementById("usernameDisplay").textContent = localStorage.getItem("loggedInUser");
+
+        // زر تسجيل الخروج
+        document.getElementById("logoutBtn").addEventListener("click", function() {
+            localStorage.removeItem("loggedInUser"); // إزالة الجلسة
+            window.location.href = "index.html"; // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+        });
+    </script>
+</body>
+</html>
